@@ -19,7 +19,7 @@ public class EmployeeImp implements Employee{
     private Instant contractTerminationDate;
 
     //constructor for the employee
-    public EmployeeImp(UUID uuid, String firstName, String lastName, int salary, int age, String jobTitle, String email, Instant contractHireDate) {
+    public EmployeeImp(UUID uuid, String firstName, String lastName, Integer salary, Integer age, String jobTitle, String email, Instant contractHireDate) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,64 +31,64 @@ public class EmployeeImp implements Employee{
     }
 
     //getters and setters for the employee
-    @override public UUID getUuid() {
+    @Override public UUID getUuid() {
         return uuid;
     }
-    @override public void setUuid(UUID uuid) {
+    @Override public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
-    @override public String getFirstName() {
+    @Override public String getFirstName() {
         return firstName;
     }
-    @override public void setFirstName(String firstName) {
+    @Override public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    @override public String getLastName() {
+    @Override public String getLastName() {
         return lastName;
     }
-    @override public void setLastName(String lastName) {
+    @Override public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    @override public String getFullName() {
-        return fullName;
+    @Override public String getFullName() {
+        return firstName + " " + lastName;
     }
-    @override public void setFullName(String fullName) {
+    @Override public void setFullName(String fullName) { // Note: change so that this splits the input and calls setFirstName and setLastName
         this.fullName = fullName;
     }
-    @override public int getSalary() {
+    @Override public Integer getSalary() {
         return salary;
     }
-    @override public void setSalary(int salary) {
+    @Override public void setSalary(Integer salary) {
         this.salary = salary;
     }
-    @override public int getAge() {
+    @Override public Integer getAge() {
         return age;
     }
-    @override public void setAge(int age) {
+    @Override public void setAge(Integer age) {
         this.age = age;
     }
-    @override public String getJobTitle() {
+    @Override public String getJobTitle() {
         return jobTitle;
     }
-    @override public void setJobTitle(String jobTitle) {
+    @Override public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
-    @override public String getEmail() {
+    @Override public String getEmail() {
         return email;
     }
-    @override public void setEmail(String email) {
+    @Override public void setEmail(String email) {
         this.email = email;
     }
-    @override public Instant getContractHireDate() {
+    @Override public Instant getContractHireDate() {
         return contractHireDate;
     }
-    @override public void setContractHireDate(Instant contractHireDate) {
+    @Override public void setContractHireDate(Instant contractHireDate) {
         this.contractHireDate = contractHireDate;
     }
-    @override public Instant getContractTerminationDate() {
+    @Override public Instant getContractTerminationDate() {
         return contractTerminationDate;
     }
-    @override public void setContractTerminationDate(Instant contractTerminationDate) {
+    @Override public void setContractTerminationDate(Instant contractTerminationDate) {
         this.contractTerminationDate = contractTerminationDate;
     }
 }
