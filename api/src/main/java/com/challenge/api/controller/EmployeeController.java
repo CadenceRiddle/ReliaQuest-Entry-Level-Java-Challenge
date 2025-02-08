@@ -58,7 +58,7 @@ public class EmployeeController {
      * @return Newly created Employee
      */
     @PostMapping
-    public EmployeeImp createEmployee(@RequestBody EmployeeImp employee) { // ✅ Use EmployeeImp
+    public EmployeeImp createEmployee(@RequestBody EmployeeImp employee) { // Note: update request to check for duplicates
         return employeeService.createEmployee(employee);
     }
 
