@@ -52,8 +52,12 @@ public class EmployeeImp implements Employee{
     @Override public String getFullName() {
         return firstName + " " + lastName;
     }
-    @Override public void setFullName(String fullName) { // Note: change so that this splits the input and calls setFirstName and setLastName
-        this.fullName = fullName;
+    @Override public void setFullName(String fullName) { 
+        String[] names = fullName.split(" ", 2);
+        if (names.length == 2) {
+            this.firstName = names[0];
+            this.lastName = names[1];
+        }
     }
     @Override public Integer getSalary() {
         return salary;
