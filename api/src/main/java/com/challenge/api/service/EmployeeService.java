@@ -8,7 +8,7 @@ import java.time.Instant;
 
 @Service
 public class EmployeeService {
-    private final Map<UUID, Employee> mockDatabase = new HashMap<>(); //creates a map to store employees
+    private final Map<UUID, EmployeeImp> mockDatabase = new HashMap<>(); //creates a map to store employees
     
     //Note: the below constructor needs to be commented if you want to run the tests
 
@@ -20,16 +20,17 @@ public class EmployeeService {
         //mockDatabase.put(emp2.getUuid(), emp2);
     }
 
-    public List<Employee> getAllEmployees() {   //method to retrieve all employees
+    public List<EmployeeImp> getAllEmployees() {   //method to retrieve all employees
         return new ArrayList<>(mockDatabase.values());
     }
 
-    public Employee getEmployeeByUuid(UUID uuid) { //method to retrieve an employee by UUID
+    public EmployeeImp getEmployeeByUuid(UUID uuid) { //method to retrieve an employee by UUID
         return mockDatabase.get(uuid);
     }
 
-    public Employee createEmployee(Employee employee) { //method to create a new employee
+    public EmployeeImp createEmployee(EmployeeImp employee) { //method to create an employee
         mockDatabase.put(employee.getUuid(), employee);
         return employee;
     }
+    
 }
