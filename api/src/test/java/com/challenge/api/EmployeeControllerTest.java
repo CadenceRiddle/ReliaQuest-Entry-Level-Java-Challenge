@@ -1,6 +1,9 @@
-package com.challenge.api.controller;
+package com.challenge.api;
 
 import com.challenge.api.model.Employee;
+import com.challenge.api.model.EmployeeImp;
+import com.challenge.api.controller.EmployeeController;
+import com.challenge.api.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +28,9 @@ class EmployeeControllerTest {
 
     private MockMvc mockMvc;
 
+    @Mock
+    private EmployeeService employeeService;  // ✅ Mock the Service Layer
+
     @InjectMocks
     private EmployeeController employeeController;
 
@@ -34,43 +40,13 @@ class EmployeeControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
 
-        // Mock Employee Implementation
-        mockEmployee = new Employee() {
-            private UUID uuid = UUID.randomUUID();
-            private String firstName = "John";
-            private String lastName = "Doe";
-            private String email = "john.doe@example.com";
-            private Integer salary = 60000;
-            private Integer age = 30;
-            private String jobTitle = "Software Engineer";
-            private Instant hireDate = Instant.now();
-
-            @Override public UUID getUuid() { return uuid; }
-            @Override public void setUuid(UUID uuid) { this.uuid = uuid; }
-            @Override public String getFirstName() { return firstName; }
-            @Override public void setFirstName(String name) { this.firstName = name; }
-            @Override public String getLastName() { return lastName; }
-            @Override public void setLastName(String name) { this.lastName = name; }
-            @Override public String getFullName() { return firstName + " " + lastName; }
-            @Override public void setFullName(String name) {}
-            @Override public Integer getSalary() { return salary; }
-            @Override public void setSalary(Integer salary) { this.salary = salary; }
-            @Override public Integer getAge() { return age; }
-            @Override public void setAge(Integer age) { this.age = age; }
-            @Override public String getJobTitle() { return jobTitle; }
-            @Override public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
-            @Override public String getEmail() { return email; }
-            @Override public void setEmail(String email) { this.email = email; }
-            @Override public Instant getContractHireDate() { return hireDate; }
-            @Override public void setContractHireDate(Instant date) { this.hireDate = date; }
-            @Override public Instant getContractTerminationDate() { return null; }
-            @Override public void setContractTerminationDate(Instant date) {}
-        };
+        // ✅ Use an actual Employee implementation
+        mockEmployee = new EmployeeImp(UUID.randomUUID(), "John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
     }
 
     @Test
     void shouldReturnAllEmployees() throws Exception {
-        when(employeeController.getAllEmployees()).thenReturn(List.of(mockEmployee));
+        when(employeeService.getAllEmployees()).thenReturn(List.of(mockEmployee));  // ✅ Mocking Service Layer
 
         mockMvc.perform(get("/api/v1/employee"))
                 .andExpect(status().isOk())
@@ -80,7 +56,7 @@ class EmployeeControllerTest {
 
     @Test
     void shouldReturnEmployeeByUuid() throws Exception {
-        when(employeeController.getEmployeeByUuid(mockEmployee.getUuid())).thenReturn(mockEmployee);
+        when(employeeService.getEmployeeByUuid(mockEmployee.getUuid())).thenReturn(mockEmployee);  // ✅ Use service mock
 
         mockMvc.perform(get("/api/v1/employee/{uuid}", mockEmployee.getUuid()))
                 .andExpect(status().isOk())
@@ -90,7 +66,7 @@ class EmployeeControllerTest {
 
     @Test
     void shouldCreateEmployee() throws Exception {
-        when(employeeController.createEmployee(mockEmployee)).thenReturn(mockEmployee);
+        when(employeeService.createEmployee(mockEmployee)).thenReturn(mockEmployee);  // ✅ Mock service layer
 
         String employeeJson = """
                 {

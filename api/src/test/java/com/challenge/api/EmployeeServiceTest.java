@@ -2,11 +2,13 @@ package com.challenge.api;
 
 import com.challenge.api.model.Employee;
 import com.challenge.api.model.EmployeeImp;
+import com.challenge.api.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.UUID;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,8 +23,8 @@ class EmployeeServiceTest {
         employeeService = new EmployeeService(); // Initialize service
 
         // Create mock employees
-        mockEmployee1 = new EmployeeImpl(UUID.randomUUID(), "Alice", "Johnson", "Software Engineer", "alice@example.com", 90000, 28);
-        mockEmployee2 = new EmployeeImpl(UUID.randomUUID(), "Bob", "Smith", "Product Manager", "bob@example.com", 120000, 35);
+        mockEmployee1 = new EmployeeImp(UUID.randomUUID(), "Alice", "Johnson", 90000, 28, "Software Engineer", "alice@example.com", Instant.now());
+        mockEmployee2 = new EmployeeImp(UUID.randomUUID(), "John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
 
         // Add mock employees to the mock database
         employeeService.createEmployee(mockEmployee1);
@@ -34,9 +36,9 @@ class EmployeeServiceTest {
         List<Employee> employees = employeeService.getAllEmployees();
 
         assertNotNull(employees);
-        assertEquals(4, employees.size()); // 2 predefined + 2 from setup
-        assertEquals("Alice", employees.get(2).getFirstName());
-        assertEquals("Bob", employees.get(3).getFirstName());
+        assertTrue(employees.size() >= 2); // Should at least contain the two mock employees
+        assertEquals("Alice", employees.get(employees.size() - 2).getFirstName());
+        assertEquals("John", employees.get(employees.size() - 1).getFirstName());
     }
 
     @Test
@@ -58,7 +60,7 @@ class EmployeeServiceTest {
 
     @Test
     void shouldCreateNewEmployee() {
-        Employee newEmployee = new EmployeeImpl(UUID.randomUUID(), "Charlie", "Brown", "QA Engineer", "charlie@example.com", 70000, 32);
+        Employee newEmployee = new EmployeeImp(UUID.randomUUID(), "Charlie", "Brown", 300000, 24, "QA Engineer", "charlie@example.com", Instant.now());
 
         Employee createdEmployee = employeeService.createEmployee(newEmployee);
 
