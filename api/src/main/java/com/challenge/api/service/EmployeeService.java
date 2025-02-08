@@ -13,8 +13,8 @@ public class EmployeeService {
     //Note: the below constructor needs to be commented if you want to run the tests
 
     public EmployeeService() {//constructor to add mock employees
-        EmployeeImp emp1 = new EmployeeImp(UUID.randomUUID(), "Alice", "Johnson", 90000, 28, "Software Engineer", "alice@example.com", Instant.now());
-        EmployeeImp emp2 = new EmployeeImp(UUID.randomUUID(), "John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        EmployeeImp emp1 = new EmployeeImp("Alice", "Johnson", 90000, 28, "Software Engineer", "alice@example.com", Instant.now());
+        EmployeeImp emp2 = new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
 
         mockDatabase.put(emp1.getUuid(), emp1);
         mockDatabase.put(emp2.getUuid(), emp2);

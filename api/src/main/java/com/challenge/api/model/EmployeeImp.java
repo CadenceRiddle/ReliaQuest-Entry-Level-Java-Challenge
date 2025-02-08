@@ -19,8 +19,8 @@ public class EmployeeImp implements Employee{
     private Instant contractTerminationDate;
 
     //constructor for the employee
-    public EmployeeImp(UUID uuid, String firstName, String lastName, Integer salary, Integer age, String jobTitle, String email, Instant contractHireDate) {
-        this.uuid = uuid;
+    public EmployeeImp(String firstName, String lastName, Integer salary, Integer age, String jobTitle, String email, Instant contractHireDate) {
+        this.uuid = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.salary = salary;

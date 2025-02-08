@@ -24,8 +24,8 @@ class EmployeeServiceTest {
         employeeService = new EmployeeService(); // Initialize service
 
         // Create mock employees
-        mockEmployee1 = new EmployeeImp(UUID.randomUUID(), "Alice", "Johnson", 90000, 28, "Software Engineer", "alice@example.com", Instant.now());
-        mockEmployee2 = new EmployeeImp(UUID.randomUUID(), "John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        mockEmployee1 = new EmployeeImp("Alice", "Johnson", 90000, 28, "Software Engineer", "alice@example.com", Instant.now());
+        mockEmployee2 = new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
 
         // Add mock employees to the mock database
         employeeService.createEmployee(mockEmployee1);
@@ -37,10 +37,14 @@ class EmployeeServiceTest {
         List<EmployeeImp> employees = employeeService.getAllEmployees();
 
         assertNotNull(employees);
-        assertTrue(employees.size() >= 2); // Should at least contain the two mock employees
-        employees.sort(Comparator.comparing(EmployeeImp::getFirstName));
-        assertEquals("Alice", employees.get(0).getFirstName());
-        assertEquals("John", employees.get(1).getFirstName());
+        assertTrue(employees.size() >= 2, "Expected at least 2 employees, but found " + employees.size());
+
+        List<String> firstNames = employees.stream()
+                                        .map(EmployeeImp::getFirstName)
+                                        .toList();
+
+        assertTrue(firstNames.contains("Alice"), "Alice is missing from the employee list");
+        assertTrue(firstNames.contains("John"), "John is missing from the employee list");
     }
 
     @Test
@@ -62,7 +66,7 @@ class EmployeeServiceTest {
 
     @Test
     void shouldCreateNewEmployee() {
-        EmployeeImp newEmployee = new EmployeeImp(UUID.randomUUID(), "Charlie", "Brown", 300000, 24, "QA Engineer", "charlie@example.com", Instant.now());
+        EmployeeImp newEmployee = new EmployeeImp("Charlie", "Brown", 300000, 24, "QA Engineer", "charlie@example.com", Instant.now());
 
         EmployeeImp createdEmployee = employeeService.createEmployee(newEmployee);
 

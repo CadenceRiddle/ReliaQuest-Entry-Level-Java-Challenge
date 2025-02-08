@@ -42,7 +42,7 @@ class EmployeeControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
 
         // ✅ Use an actual Employee implementation
-        mockEmployee = new EmployeeImp(UUID.randomUUID(), "John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        mockEmployee = new EmployeeImp("John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
     }
 
     @Test
@@ -67,7 +67,7 @@ class EmployeeControllerTest {
 
     @Test
     void shouldCreateEmployee() throws Exception {
-        EmployeeImp newEmployee = new EmployeeImp(UUID.randomUUID(), "John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        EmployeeImp newEmployee = new EmployeeImp("John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
 
         when(employeeService.createEmployee(any(EmployeeImp.class))).thenReturn(newEmployee);
 

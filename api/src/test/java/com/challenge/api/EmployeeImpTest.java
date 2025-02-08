@@ -17,15 +17,14 @@ class EmployeeImpTest {
 
     @BeforeEach
     void setUp() {
-        uuid = UUID.randomUUID();
         now = Instant.now();
         
-        employee = new EmployeeImp(uuid, "John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        employee = new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
     }
 
     @Test
     void testGetters() {
-        assertEquals(uuid, employee.getUuid());
+        assertNotNull(employee.getUuid());
         assertEquals("John", employee.getFirstName());
         assertEquals("Doe", employee.getLastName());
         assertEquals("John Doe", employee.getFullName());
