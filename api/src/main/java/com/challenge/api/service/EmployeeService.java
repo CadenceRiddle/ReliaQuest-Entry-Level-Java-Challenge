@@ -16,5 +16,16 @@ public class EmployeeService {
         mockDatabase.put(emp2.getUuid(), emp2);
     }
 
-    
+    public List<Employee> getAllEmployees() {   //method to retrieve all employees
+        return new ArrayList<>(mockDatabase.values());
+    }
+
+    public Employee getEmployeeByUuid(UUID uuid) { //method to retrieve an employee by UUID
+        return mockDatabase.get(uuid);
+    }
+
+    public Employee createEmployee(Employee employee) { //method to create a new employee
+        mockDatabase.put(employee.getUuid(), employee);
+        return employee;
+    }
 }
