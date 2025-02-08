@@ -9,14 +9,15 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 import java.time.Instant;
+import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeServiceTest {
 
     private EmployeeService employeeService;
-    private Employee mockEmployee1;
-    private Employee mockEmployee2;
+    private EmployeeImp mockEmployee1;
+    private EmployeeImp mockEmployee2;
 
     @BeforeEach
     void setUp() {
@@ -33,17 +34,18 @@ class EmployeeServiceTest {
 
     @Test
     void shouldReturnAllEmployees() {
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<EmployeeImp> employees = employeeService.getAllEmployees();
 
         assertNotNull(employees);
         assertTrue(employees.size() >= 2); // Should at least contain the two mock employees
-        assertEquals("Alice", employees.get(employees.size() - 2).getFirstName());
-        assertEquals("John", employees.get(employees.size() - 1).getFirstName());
+        employees.sort(Comparator.comparing(EmployeeImp::getFirstName));
+        assertEquals("Alice", employees.get(0).getFirstName());
+        assertEquals("John", employees.get(1).getFirstName());
     }
 
     @Test
     void shouldReturnEmployeeByUuid() {
-        Employee retrievedEmployee = employeeService.getEmployeeByUuid(mockEmployee1.getUuid());
+        EmployeeImp retrievedEmployee = employeeService.getEmployeeByUuid(mockEmployee1.getUuid());
 
         assertNotNull(retrievedEmployee);
         assertEquals(mockEmployee1.getUuid(), retrievedEmployee.getUuid());
@@ -53,16 +55,16 @@ class EmployeeServiceTest {
     @Test
     void shouldReturnNullForNonexistentEmployee() {
         UUID randomUuid = UUID.randomUUID();
-        Employee employee = employeeService.getEmployeeByUuid(randomUuid);
+        EmployeeImp employee = employeeService.getEmployeeByUuid(randomUuid);
 
         assertNull(employee);
     }
 
     @Test
     void shouldCreateNewEmployee() {
-        Employee newEmployee = new EmployeeImp(UUID.randomUUID(), "Charlie", "Brown", 300000, 24, "QA Engineer", "charlie@example.com", Instant.now());
+        EmployeeImp newEmployee = new EmployeeImp(UUID.randomUUID(), "Charlie", "Brown", 300000, 24, "QA Engineer", "charlie@example.com", Instant.now());
 
-        Employee createdEmployee = employeeService.createEmployee(newEmployee);
+        EmployeeImp createdEmployee = employeeService.createEmployee(newEmployee);
 
         assertNotNull(createdEmployee);
         assertEquals("Charlie", createdEmployee.getFirstName());

@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.time.Instant;
 import java.util.List;
@@ -29,12 +30,12 @@ class EmployeeControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private EmployeeService employeeService;  // ✅ Mock the Service Layer
+    private EmployeeService employeeService;
 
     @InjectMocks
     private EmployeeController employeeController;
 
-    private Employee mockEmployee;
+    private EmployeeImp mockEmployee;
 
     @BeforeEach
     void setUp() {
@@ -46,7 +47,7 @@ class EmployeeControllerTest {
 
     @Test
     void shouldReturnAllEmployees() throws Exception {
-        when(employeeService.getAllEmployees()).thenReturn(List.of(mockEmployee));  // ✅ Mocking Service Layer
+        when(employeeService.getAllEmployees()).thenReturn(List.of((EmployeeImp) mockEmployee)); 
 
         mockMvc.perform(get("/api/v1/employee"))
                 .andExpect(status().isOk())
@@ -56,7 +57,7 @@ class EmployeeControllerTest {
 
     @Test
     void shouldReturnEmployeeByUuid() throws Exception {
-        when(employeeService.getEmployeeByUuid(mockEmployee.getUuid())).thenReturn(mockEmployee);  // ✅ Use service mock
+        when(employeeService.getEmployeeByUuid(mockEmployee.getUuid())).thenReturn(mockEmployee); 
 
         mockMvc.perform(get("/api/v1/employee/{uuid}", mockEmployee.getUuid()))
                 .andExpect(status().isOk())
@@ -66,16 +67,18 @@ class EmployeeControllerTest {
 
     @Test
     void shouldCreateEmployee() throws Exception {
-        when(employeeService.createEmployee(mockEmployee)).thenReturn(mockEmployee);  // ✅ Mock service layer
+        EmployeeImp newEmployee = new EmployeeImp(UUID.randomUUID(), "John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+
+        when(employeeService.createEmployee(any(EmployeeImp.class))).thenReturn(newEmployee);
 
         String employeeJson = """
                 {
-                  "firstName": "John",
-                  "lastName": "Doe",
-                  "email": "john.doe@example.com",
-                  "salary": 60000,
-                  "age": 30,
-                  "jobTitle": "Software Engineer"
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "john.doe@example.com",
+                "salary": 60000,
+                "age": 30,
+                "jobTitle": "Software Engineer"
                 }
                 """;
 
