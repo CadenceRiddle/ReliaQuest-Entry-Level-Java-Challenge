@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.time.Instant;
 
-@Service
+@Service //service class to handle employee data
 public class EmployeeService {
     private final Map<UUID, EmployeeImp> mockDatabase = new HashMap<>(); //creates a map to store employees
 
@@ -27,6 +27,14 @@ public class EmployeeService {
     }
 
     public EmployeeImp createEmployee(EmployeeImp employee) { //method to create an employee
+
+        boolean emailExists = mockDatabase.values().stream()            //checks for duplicate emails, this acts like the SQL UNIQUE constraint
+            .anyMatch(emp -> emp.getEmail().equalsIgnoreCase(employee.getEmail()));
+
+        if (emailExists) {
+            throw new IllegalArgumentException("Employee with email " + employee.getEmail() + " already exists!");
+        }
+
         mockDatabase.put(employee.getUuid(), employee);
         return employee;
     }
