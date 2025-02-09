@@ -61,16 +61,28 @@ public class EmployeeService {
     }
 
     public EmployeeImp createEmployee(EmployeeImp employee) { // method to create an employee
+        try {
+            boolean emailExists =
+                    mockDatabase
+                            .values()
+                            .stream() // checks for duplicate emails, this acts like the SQL UNIQUE constraint
+                            .anyMatch(emp -> emp.getEmail().equalsIgnoreCase(employee.getEmail()));
 
-        boolean emailExists =
-                mockDatabase.values().stream() // checks for duplicate emails, this acts like the SQL UNIQUE constraint
-                        .anyMatch(emp -> emp.getEmail().equalsIgnoreCase(employee.getEmail()));
+            if (emailExists) {
+                throw new IllegalArgumentException("Employee with email " + employee.getEmail() + " already exists!");
+            }
 
-        if (emailExists) {
-            throw new IllegalArgumentException("Employee with email " + employee.getEmail() + " already exists!");
+            mockDatabase.put(employee.getUuid(), employee);
+
+            if (!mockDatabase.containsKey(employee.getUuid())) {
+                throw new RuntimeException(
+                        "Failed to add employee: " + employee.getFirstName() + " " + employee.getLastName());
+            }
+
+            return employee;
+        } catch (Exception e) {
+            System.err.println(e.getMessage()); // Log the error message
+            throw e;
         }
-
-        mockDatabase.put(employee.getUuid(), employee);
-        return employee;
     }
 }
