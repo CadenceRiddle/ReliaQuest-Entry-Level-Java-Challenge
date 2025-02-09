@@ -1,13 +1,12 @@
 package com.challenge.api;
 
-import com.challenge.api.model.EmployeeImp; 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
+import com.challenge.api.model.EmployeeImp;
 import java.time.Instant;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class EmployeeImpTest {
 
@@ -18,8 +17,9 @@ class EmployeeImpTest {
     @BeforeEach
     void setUp() {
         now = Instant.now();
-        
-        employee = new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+
+        employee =
+                new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
     }
 
     @Test
@@ -65,4 +65,3 @@ class EmployeeImpTest {
         assertEquals(terminationDate, employee.getContractTerminationDate());
     }
 }
-

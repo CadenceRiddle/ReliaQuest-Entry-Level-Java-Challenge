@@ -5,21 +5,19 @@ package com.challenge.api.config;
  * Prevents unauthorized access and requests
  */
 
+import java.util.List;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import java.util.List;
-
 
 public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000")); //location of the frontend, adjust as needed
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));//submission only requires GET and POST
+        config.setAllowedOrigins(List.of("http://localhost:3000")); // location of the frontend, adjust as needed
+        config.setAllowedMethods(
+                List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // submission only requires GET and POST
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 

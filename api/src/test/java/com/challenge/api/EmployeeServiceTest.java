@@ -1,17 +1,14 @@
 package com.challenge.api;
 
-import com.challenge.api.model.Employee;
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.challenge.api.model.EmployeeImp;
 import com.challenge.api.service.EmployeeService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.time.Instant;
-import java.util.Comparator;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class EmployeeServiceTest {
 
@@ -24,8 +21,22 @@ class EmployeeServiceTest {
         employeeService = new EmployeeService(); // Initialize service
 
         // Create mock employees
-        mockEmployee1 = new EmployeeImp("Alice", "Johnson", 90000, 28, "Software Engineer", "alice" + UUID.randomUUID() + "@example.com", Instant.now());
-        mockEmployee2 = new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe" + UUID.randomUUID() + "@example.com", Instant.now());
+        mockEmployee1 = new EmployeeImp(
+                "Alice",
+                "Johnson",
+                90000,
+                28,
+                "Software Engineer",
+                "alice" + UUID.randomUUID() + "@example.com",
+                Instant.now());
+        mockEmployee2 = new EmployeeImp(
+                "John",
+                "Doe",
+                80000,
+                30,
+                "Software Engineer",
+                "john.doe" + UUID.randomUUID() + "@example.com",
+                Instant.now());
 
         // Add mock employees to the mock database
         employeeService.createEmployee(mockEmployee1);
@@ -39,9 +50,8 @@ class EmployeeServiceTest {
         assertNotNull(employees);
         assertTrue(employees.size() >= 2, "Expected at least 2 employees, but found " + employees.size());
 
-        List<String> firstNames = employees.stream()
-                                        .map(EmployeeImp::getFirstName)
-                                        .toList();
+        List<String> firstNames =
+                employees.stream().map(EmployeeImp::getFirstName).toList();
 
         assertTrue(firstNames.contains("Alice"), "Alice is missing from the employee list");
         assertTrue(firstNames.contains("John"), "John is missing from the employee list");
@@ -66,7 +76,14 @@ class EmployeeServiceTest {
 
     @Test
     void shouldCreateNewEmployee() {
-        EmployeeImp newEmployee = new EmployeeImp("Charlie", "Brown", 300000, 24, "QA Engineer", "charlie.brown" + UUID.randomUUID() + "@example.com", Instant.now());
+        EmployeeImp newEmployee = new EmployeeImp(
+                "Charlie",
+                "Brown",
+                300000,
+                24,
+                "QA Engineer",
+                "charlie.brown" + UUID.randomUUID() + "@example.com",
+                Instant.now());
 
         EmployeeImp createdEmployee = employeeService.createEmployee(newEmployee);
 

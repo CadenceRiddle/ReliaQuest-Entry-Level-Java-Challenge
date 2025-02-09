@@ -1,24 +1,23 @@
 package com.challenge.api.controller;
 
-import com.challenge.api.model.Employee;
-import com.challenge.api.service.EmployeeService;
 import com.challenge.api.model.EmployeeImp;
+import com.challenge.api.service.EmployeeService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * Fill in the missing aspects of this Spring Web REST Controller. Don't forget to add a Service layer.
  */
-@CrossOrigin(origins = "http://localhost:3000")//match with frontend in config directory
+@CrossOrigin(origins = "http://localhost:3000") // match with frontend in config directory
 @RestController
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
@@ -53,15 +52,13 @@ public class EmployeeController {
         return employee;
     }
 
-
     /**
      * @implNote Need not be concerned with an actual persistence layer.
      * @param requestBody hint!
      * @return Newly created Employee
      */
     @PostMapping
-    public EmployeeImp createEmployee(@RequestBody EmployeeImp employee) { // Note: update request to check for duplicates
+    public EmployeeImp createEmployee(@RequestBody EmployeeImp employee) {
         return employeeService.createEmployee(employee);
     }
-
 }

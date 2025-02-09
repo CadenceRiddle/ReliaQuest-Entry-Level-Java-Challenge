@@ -1,9 +1,16 @@
 package com.challenge.api;
 
-import com.challenge.api.model.Employee;
-import com.challenge.api.model.EmployeeImp;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import com.challenge.api.controller.EmployeeController;
+import com.challenge.api.model.EmployeeImp;
 import com.challenge.api.service.EmployeeService;
+import java.time.Instant;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,16 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.mockito.ArgumentMatchers.any;
-
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(MockitoExtension.class)
 class EmployeeControllerTest {
@@ -42,12 +39,13 @@ class EmployeeControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
 
         // ✅ Use an actual Employee implementation
-        mockEmployee = new EmployeeImp("John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        mockEmployee =
+                new EmployeeImp("John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
     }
 
     @Test
     void shouldReturnAllEmployees() throws Exception {
-        when(employeeService.getAllEmployees()).thenReturn(List.of((EmployeeImp) mockEmployee)); 
+        when(employeeService.getAllEmployees()).thenReturn(List.of((EmployeeImp) mockEmployee));
 
         mockMvc.perform(get("/api/v1/employee"))
                 .andExpect(status().isOk())
@@ -57,7 +55,7 @@ class EmployeeControllerTest {
 
     @Test
     void shouldReturnEmployeeByUuid() throws Exception {
-        when(employeeService.getEmployeeByUuid(mockEmployee.getUuid())).thenReturn(mockEmployee); 
+        when(employeeService.getEmployeeByUuid(mockEmployee.getUuid())).thenReturn(mockEmployee);
 
         mockMvc.perform(get("/api/v1/employee/{uuid}", mockEmployee.getUuid()))
                 .andExpect(status().isOk())
@@ -67,11 +65,13 @@ class EmployeeControllerTest {
 
     @Test
     void shouldCreateEmployee() throws Exception {
-        EmployeeImp newEmployee = new EmployeeImp("John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        EmployeeImp newEmployee =
+                new EmployeeImp("John", "Doe", 60000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
 
         when(employeeService.createEmployee(any(EmployeeImp.class))).thenReturn(newEmployee);
 
-        String employeeJson = """
+        String employeeJson =
+                """
                 {
                 "firstName": "John",
                 "lastName": "Doe",
@@ -83,8 +83,8 @@ class EmployeeControllerTest {
                 """;
 
         mockMvc.perform(post("/api/v1/employee")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(employeeJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(employeeJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value("John"))
                 .andExpect(jsonPath("$.jobTitle").value("Software Engineer"));
