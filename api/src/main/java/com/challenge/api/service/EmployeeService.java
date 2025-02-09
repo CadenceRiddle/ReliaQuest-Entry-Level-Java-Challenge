@@ -9,8 +9,6 @@ import java.time.Instant;
 @Service
 public class EmployeeService {
     private final Map<UUID, EmployeeImp> mockDatabase = new HashMap<>(); //creates a map to store employees
-    
-    //Note: the below constructor needs to be commented if you want to run the tests
 
     public EmployeeService() {//constructor to add mock employees
         EmployeeImp emp1 = new EmployeeImp("Alice", "Johnson", 90000, 28, "Software Engineer", "alice@example.com", Instant.now());
