@@ -24,8 +24,8 @@ class EmployeeServiceTest {
         employeeService = new EmployeeService(); // Initialize service
 
         // Create mock employees
-        mockEmployee1 = new EmployeeImp("Alice", "Johnson", 90000, 28, "Software Engineer", "alice@example.com", Instant.now());
-        mockEmployee2 = new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe@example.com", Instant.now());
+        mockEmployee1 = new EmployeeImp("Alice", "Johnson", 90000, 28, "Software Engineer", "alice" + UUID.randomUUID() + "@example.com", Instant.now());
+        mockEmployee2 = new EmployeeImp("John", "Doe", 80000, 30, "Software Engineer", "john.doe" + UUID.randomUUID() + "@example.com", Instant.now());
 
         // Add mock employees to the mock database
         employeeService.createEmployee(mockEmployee1);
@@ -66,7 +66,7 @@ class EmployeeServiceTest {
 
     @Test
     void shouldCreateNewEmployee() {
-        EmployeeImp newEmployee = new EmployeeImp("Charlie", "Brown", 300000, 24, "QA Engineer", "charlie@example.com", Instant.now());
+        EmployeeImp newEmployee = new EmployeeImp("Charlie", "Brown", 300000, 24, "QA Engineer", "charlie.brown" + UUID.randomUUID() + "@example.com", Instant.now());
 
         EmployeeImp createdEmployee = employeeService.createEmployee(newEmployee);
 
